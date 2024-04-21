@@ -86,9 +86,28 @@ namespace CodePulse.API.Controllers
                 UrlHandle = request.UrlHandle
             };
 
-            category =  await categoryRepository.UpdateAsync(category);
+            category = await categoryRepository.UpdateAsync(category);
 
             if (category == null)
+            {
+                return NotFound();
+            }
+            var response = new CategoryDto
+            {
+                Id = category.Id,
+                Name = category.Name,
+                UrlHandle = category.UrlHandle
+            };
+            return Ok(response);
+        }
+
+        [HttpDelete]
+        [Route("{id:Guid}")]
+
+        public async Task<IActionResult> DeleteCategory([FromRoute] Guid id)
+        {
+            var category = await categoryRepository.DeleteAsync(id);
+            if(category == null)
             {
                 return NotFound();
             }

@@ -20,6 +20,8 @@ namespace CodePulse.API.Repositories.Implementation
             return category;
         }
 
+        
+
         public async Task<IEnumerable<Category>> GetAllAsync()
         {
            return await dbContext.Categories.ToListAsync();
@@ -39,6 +41,19 @@ namespace CodePulse.API.Repositories.Implementation
                 return category;
             }
             return null;
+        }
+
+        public async Task<Category?> DeleteAsync(Guid id)
+        {
+            var existingCategories = await dbContext.Categories.FirstOrDefaultAsync(x => x.Id== id);
+
+            if(existingCategories is null)
+            {
+                return null;
+            }
+            dbContext.Categories.Remove(existingCategories);
+            await dbContext.SaveChangesAsync();
+            return existingCategories;
         }
     }
 }
