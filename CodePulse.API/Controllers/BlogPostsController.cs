@@ -134,7 +134,7 @@ namespace CodePulse.API.Controllers
         //PUT
         [HttpPut]
         [Route("{id:Guid}")]
-        public async Task<IActionResult> UpdateBlogPostById([FromRoute] Guid id, [FromBody] UpdateBlogPostRequestDto request)
+        public async Task<IActionResult> UpdateBlogPostById([FromRoute] Guid id, UpdateBlogPostRequestDto request)
         {
             var blogPost = new BlogPost
             {
@@ -157,7 +157,6 @@ namespace CodePulse.API.Controllers
                     blogPost.Categories.Add(existingCategory);
                 }
             }
-
             //Call Repository to Update BlogPost
             var updatedBlogPost = await blogPostRepository.UpdateAsync(blogPost);
             if(updatedBlogPost is null)
@@ -182,7 +181,6 @@ namespace CodePulse.API.Controllers
                     UrlHandle = x.UrlHandle
                 }).ToList()
             };
-
             return Ok(response);
         }
 
